@@ -30,7 +30,7 @@ class ApiRepository():
         return result
 
     def getAllLapsFromTrackNameFormatted(self,track_name,track_config):
-        query ='SELECT cs.driver_id,l.laptime,cs.car_model,l.cuts,l.lap_timestamp FROM laps AS l LEFT JOIN game_sessions AS gs ON l.game_session_id = gs.game_session_id AND gs.track_name = %s AND gs.track_config = %s LEFT JOIN client_sessions AS cs ON l.client_session_id = cs.client_session_id;'
+        query ='SELECT cs.driver_id,l.laptime,cs.car_model,l.cuts,l.lap_timestamp FROM laps AS l LEFT JOIN game_sessions AS gs ON l.game_session_id = gs.game_session_id AND gs.track_name = %s AND gs.track_config = %s LEFT JOIN client_sessions AS cs ON l.client_session_id = cs.client_session_id ORDER BY l.laptime ASC;'
         self.cursor.execute(query,([track_name,track_config]))
         result = json.loads(json.dumps(self.cursor.fetchall(),default=str))
         return result

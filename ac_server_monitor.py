@@ -264,7 +264,7 @@ class ServerMonitor(object):
                 self._handle_new_session()
 
                 # Uncomment to enable realtime position reports
-                self._enable_realtime_report()
+                # self._enable_realtime_report()
             elif packet_id == proto.ACSP_SESSION_INFO:
                 self._handle_session_info()
             elif packet_id == proto.ACSP_END_SESSION:
