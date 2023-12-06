@@ -54,7 +54,7 @@ async def getCurentSessionData():
 
 @app.get("/laptimes/")
 async def getLaptimesForTrack(track_name: str,track_config: str, numberOfRecords: int):
-    # /laptimes/?track_name=pk_gunma_cycle_sports_center&track_config=gcsc_full_attack
+    # /laptimes/?track_name=pk_gunma_cycle_sports_center&track_config=gcsc_full_attack&numberOfRecords=10
     result = apiRepo.getAllLapsFromTrackNameFormatted(track_name,track_config,numberOfRecords)
     return result
 
@@ -67,7 +67,6 @@ async def forceUpdateSessionData():
 @sio.on('connect')
 async def connect_hanlder(sid,environ):
     print(f"Client connected")
-    await sio.emit("message", "Welcome to Socket.IO FastAPI")
 
 @sio.on('disconnect')
 async def disconnect_handler(sid):
