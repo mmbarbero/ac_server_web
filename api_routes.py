@@ -30,7 +30,7 @@ apiRepo = ApiRepository()
 UDP_SEND_PORT = None
 UDP_IP = None
 sock = None
-sio = socketio.AsyncServer(cors_allowed_origins='*', async_mode='asgi')
+sio = socketio.AsyncServer(cors_allowed_origins=FRONTEND_ADDRESS, async_mode='asgi')
 sio_app = socketio.ASGIApp(sio, app)
 
 @app.get("/")
@@ -82,7 +82,7 @@ def runServer(socket,udp_address,udp_port,web_address,web_port):
     sock = socket
     UDP_IP = udp_address
     UDP_SEND_PORT = udp_port
-    uvicorn.run(app, host=web_address, port=web_port)
+    uvicorn.run(sio_app, host=web_address, port=web_port)
 
 
     
