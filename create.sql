@@ -40,3 +40,62 @@ CREATE TABLE IF NOT EXISTS game_sessions (
     weather_graphics varchar,
     elapsed_ms int
 );
+
+CREATE or REPLACE FUNCTION notify_new_lap()
+    RETURNS trigger
+     LANGUAGE 'plpgsql'
+as $BODY$
+declare
+begin
+    if (tg_op = 'INSERT') then
+        NOTIFY new_lap_added;
+    end if;
+    return null;
+end
+$BODY$;
+
+CREATE or REPLACE FUNCTION notify_client_session()
+    RETURNS trigger
+     LANGUAGE 'plpgsql'
+as $BODY$
+declare
+begin
+    if (tg_op = 'INSERT') then
+        NOTIFY new_client_session_added;
+    elsif (tg_op = 'UPDATE') then
+        NOTIFY new_client_session_updated;
+    end if;
+    return null;
+end
+$BODY$;
+
+CREATE or REPLACE FUNCTION notify_game_session()
+    RETURNS trigger
+     LANGUAGE 'plpgsql'
+as $BODY$
+declare
+begin
+    if (tg_op = 'INSERT') then
+        NOTIFY new_game_session_added;
+    end if;
+    return null;
+end
+$BODY$;
+
+CREATE TRIGGER after_added_lap
+    AFTER INSERT
+    ON laps
+    FOR EACH ROW
+    EXECUTE PROCEDURE notify_new_lap();
+
+CREATE TRIGGER after_changed_client_session
+    AFTER INSERT OR UPDATE
+    ON client_sessions
+    FOR EACH ROW
+    EXECUTE PROCEDURE notify_client_session();
+
+CREATE TRIGGER after_changed_game_session
+    AFTER INSERT 
+    ON game_sessions
+    FOR EACH ROW
+    EXECUTE PROCEDURE notify_game_session();

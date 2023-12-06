@@ -4,6 +4,8 @@ from data_schemas import GameSession, ClientSession, Lap
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 DB_HOST = os.environ['DB_HOST']
 DB_PORT = os.environ['DB_PORT']
 DB_NAME = os.environ['DB_NAME']
