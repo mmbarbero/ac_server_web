@@ -7,6 +7,7 @@ from data_persistence import Database
 from data_schemas import GameSession, ClientSession, Lap
 import proto
 SUPPORTED_PROTOCOLS = [2, 4]
+import time
 
 class Vector3f(object):
     def __init__(self):
@@ -282,6 +283,7 @@ class ServerMonitor(object):
             elif packet_id == proto.ACSP_LAP_COMPLETED:
                 self._handle_lap_completed()
             else:
-                print('** UNKOWNN PACKET ID: %d' % packet_id)
+                print('** UNKOWNN PACKET ID: %d' % packet_id) 
+            time.sleep(0.5)
 
 

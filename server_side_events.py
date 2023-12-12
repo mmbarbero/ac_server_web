@@ -5,6 +5,7 @@ import asyncio
 import psycopg2
 import queue
 import threading
+import time
 
 load_dotenv()
 
@@ -55,7 +56,7 @@ class SSEvents():
                     await self.sendEvent(channels.LAP_ACTIVITY,'UPDATE',socketio)
                 elif(notify.channel == eventConsts.NEW_GAME_SESSION):
                     await self.sendEvent(channels.GAME_SESSION_ACTIVITY,'UPDATE',socketio)
-
+                time.sleep(1)
     def entrypoint(self,socketio):
         asyncio.run(self.event_listener(socketio))
                     
